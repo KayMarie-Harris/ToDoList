@@ -1,4 +1,9 @@
 package com.learningcode.todolist.repository;
 
-public class CategoryRepository {
+import com.learningcode.todolist.model.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
 }
