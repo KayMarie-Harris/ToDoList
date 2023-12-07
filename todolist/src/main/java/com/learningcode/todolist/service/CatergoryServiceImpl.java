@@ -1,4 +1,18 @@
 package com.learningcode.todolist.service;
 
-public class CatergoryServiceImpl {
+import com.learningcode.todolist.model.Category;
+import com.learningcode.todolist.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CatergoryServiceImpl implements CategoryService{
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Override
+    public Category createCategory(Category category) {
+        return categoryRepository.save(category);
+    }
 }
