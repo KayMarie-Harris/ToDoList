@@ -5,10 +5,10 @@ package com.learningcode.todolist.controller;
 import com.learningcode.todolist.model.Task;
 import com.learningcode.todolist.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 // Used to annotate a class to indicate that it is a controller where every method returns a domain object instead of a view
@@ -23,4 +23,26 @@ public class TaskController {
         taskService.createTask(task);
         return "Task added";
     }
+
+    @GetMapping("/getAll")
+    public List<Task> getAllTasks(){
+        return taskService.getAllTasks();
+    }
+
+    @PutMapping("/addCategory")
+    public Task addCategoryToTask(@RequestParam int taskId, @RequestParam int categoryId) {
+        return taskService.addCategoryToTask(taskId, categoryId);
+    }
+
+
+    @PutMapping("/deleteCategory")
+    public Task deleteCategoryFromTask(@RequestParam int taskId, @RequestParam  int categoryId) {
+        return taskService.deleteCategoryFromTask(taskId, categoryId);
+    }
+
+    @DeleteMapping("/delete")
+    public String deleteTask(@RequestParam int taskId){
+        return taskService.deleteTask(taskId);
+    }
+
 }

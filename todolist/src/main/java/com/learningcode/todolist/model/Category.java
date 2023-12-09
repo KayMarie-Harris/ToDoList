@@ -1,6 +1,12 @@
 package com.learningcode.todolist.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.learningcode.todolist.enums.Color;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="category")
@@ -11,10 +17,18 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int categoryId;
 
-    @Column(name = "task_id")
-    private int taskId;
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "task_categories",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
+    private Set<Task> tasks = new HashSet<>();
+
 
     private String categoryName;
+    private Color color;
 
 // GETTERS
 
@@ -22,34 +36,41 @@ public class Category {
         return categoryId;
     }
 
-    public int getTaskId() {
-        return taskId;
+    public Set<Task> getTasks() {
+        return tasks;
     }
 
     public String getCategoryName() {
         return categoryName;
     }
 
-// SETTERS
+    public Color  getColor() {
+        return color;
+    }
+
+    // SETTERS
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public void setTask(Set<Task> tasks) {
+        this.tasks = tasks;
     }
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
 
     @Override
     public String toString() {
         return "Category{" +
                 "categoryId=" + categoryId +
-                ", taskId=" + taskId +
+                ", taskId=" + tasks +
                 ", categoryName='" + categoryName + '\'' +
                 '}';
     }

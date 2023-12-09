@@ -4,6 +4,7 @@ package com.learningcode.todolist.model;
     // JPA (Java Persistence API)  entities are Java classes that represent objects in your application and are mapped to database tables
     // DTOs (Data Transfer Objects) are objects used to transfer data between different layers of an application, such as between the frontend and the backend
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -25,8 +26,7 @@ public class Task {
     private LocalDate dueDate;
     private boolean isCompleted;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "task_id")
+    @ManyToMany(mappedBy = "tasks")
     private Set<Category> categories = new HashSet<>();
 
  // GETTERS
@@ -47,6 +47,10 @@ public class Task {
         return isCompleted;
     }
 
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
     // SETTERS
 
 
@@ -62,8 +66,12 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setIsCompleted(boolean completed) {
         isCompleted = completed;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 
     @Override
